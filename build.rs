@@ -9,7 +9,7 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-const LIBINJECTION_URL: &'static str = "https://github.com/client9/libinjection";
+const LIBINJECTION_URL: &'static str = "https://github.com/libinjection/libinjection";
 const BUILD_DIR_NAME: &'static str = "libinjection";
 
 fn clone_libinjection(build_dir: &Path, version: &str) -> Option<()> {
