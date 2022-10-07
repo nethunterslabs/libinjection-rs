@@ -9,11 +9,26 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-const LIBINJECTION_URL: &'static str = "https://github.com/libinjection/libinjection";
-const BUILD_DIR_NAME: &'static str = "libinjection";
+const LIBINJECTION_URL: &str = "https://github.com/nethunterslabs/libinjection/";
+const BUILD_DIR_NAME: &str = "libinjection";
 
 fn clone_libinjection(build_dir: &Path, version: &str) -> Option<()> {
     let repo = Repository::clone(LIBINJECTION_URL, build_dir).ok()?;
+
+    let refname = "f994d33"; // or a tag (v0.1.1) or a commit (8e8128)
+    let (object, reference) = repo.revparse_ext(refname).expect("Object not found");
+
+    repo.checkout_tree(&object, None)
+        .expect("Failed to checkout");
+
+    match reference {
+        // gref is an actual reference like branches or tags
+        Some(gref) => repo.set_head(gref.name().unwrap()),
+        // this is a commit, not a reference
+        None => repo.set_head_detached(object.id()),
+    }
+    .expect("Failed to set HEAD");
+
     let rev = repo.revparse_single(version).ok()?;
     repo.set_head_detached(rev.id()).ok()
 }
