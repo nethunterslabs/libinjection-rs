@@ -16,6 +16,6 @@ categories = ["api-bindings", "external-ffi-bindings"]
 travis-ci = { repository = "arvancloud/libinjection-rs" }
 
 [build-dependencies]
-bindgen = "0.55"
-git2 = "0.13"
-regex = "1.4"
+bindgen = "0.65"
+git2 = "0.17"
+regex = "1.8"
